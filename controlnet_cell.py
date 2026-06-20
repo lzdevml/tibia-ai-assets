@@ -1,10 +1,12 @@
+import subprocess, sys
+subprocess.run([sys.executable, '-m', 'pip', '-q', 'install', '-U', 'diffusers', 'transformers', 'accelerate', 'peft', 'safetensors'])
 import torch, requests, io, json
 import numpy as np
 from PIL import Image
 try:
     import cv2
 except Exception:
-    import subprocess; subprocess.run(['pip','-q','install','opencv-python-headless']); import cv2
+    subprocess.run([sys.executable, '-m', 'pip', '-q', 'install', 'opencv-python-headless']); import cv2
 from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel, AutoencoderKL
 
 KEY = '4f95e1b95c22a001687576e3c07fcd33'
@@ -51,7 +53,6 @@ def up(name, im):
                       data=b.getvalue())
     return r.json().get('id')
 
-# TEST: south, two controlnet strengths
 out = {}
 for cs in [0.6, 0.9]:
     ctrl, res = gen(M['frames']['S_p0'], cs)
